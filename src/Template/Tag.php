@@ -20,7 +20,7 @@ class Tag
         $tag = "<?php {$name}";
 
         /** If a statement if passed set the statement */
-        $tag .= $statement ? : "({$statement}):" : null;
+        $tag .= $statement ? "({$statement}):" : null;
 
         /** add the closing php tag */
         $tag .= " ?>";
