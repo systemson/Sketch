@@ -2,10 +2,8 @@
 
 namespace Amber\Sketch\Engine;
 
-use Amber\Sketch\Engine\Filesystem;
-
 /**
- * Handle folders in the file system
+ * Handle folders in the file system.
  */
 class Folder
 {
@@ -16,7 +14,7 @@ class Folder
 
     /**
      * @var string
-     * The path to the folder.
+     *             The path to the folder.
      */
     public $path;
 
@@ -25,6 +23,7 @@ class Folder
      *
      * @param string $name The name of the folder.
      * @param string $path The path to the folder.
+     *
      * @return void
      */
     public function __construct($name, $path)
@@ -36,7 +35,7 @@ class Folder
     /**
      * Checks if the folder exists.
      *
-     * @return boolean
+     * @return bool
      */
     public function exists()
     {
@@ -50,7 +49,7 @@ class Folder
      */
     public function create()
     {
-        if(!$this->exists()) {
+        if (!$this->exists()) {
             Filesystem::createDir($this->path);
         }
     }
@@ -62,7 +61,7 @@ class Folder
      */
     public function delete()
     {
-        if($this->exists()) {
+        if ($this->exists()) {
             Filesystem::deleteDir($this->path);
         }
     }

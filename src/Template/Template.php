@@ -2,11 +2,8 @@
 
 namespace Amber\Sketch\Template;
 
-use Amber\Sketch\Engine\Folders;
 use Amber\Sketch\Engine\File;
-use Amber\Sketch\Template\Blocks;
-use Amber\Sketch\Template\Includes;
-use Amber\Sketch\Template\Tags;
+use Amber\Sketch\Engine\Folders;
 
 /**
  * Handle the template request.
@@ -41,56 +38,61 @@ class Template
     public $includes = [];
 
     /**
-     * Instantiate the Template
+     * Instantiate the Template.
      *
      * @param string $view The template view.
      * @param string $layout The template layout.
+     *
      * @return void
      */
-     public function __construct($view, $layout)
-     {
-          /** Set the view name */
-          $this->setView($view);
+    public function __construct($view, $layout)
+    {
+        /* Set the view name */
+        $this->setView($view);
 
-          /** Set the layout name */
-          $this->setLayout($layout);
+        /* Set the layout name */
+        $this->setLayout($layout);
 
-          /** Get the blocks from the layout */
-          $this->blocks($this->layout->content, $this->blocks);
+        /* Get the blocks from the layout */
+        $this->blocks($this->layout->content, $this->blocks);
 
-          /** Get the blocks from the view */
-          $this->blocks($this->view->content, $this->blocks);
-     }
+        /* Get the blocks from the view */
+        $this->blocks($this->view->content, $this->blocks);
+    }
 
     /**
      * Set the template view.
      *
      * @param string $path The path to the view.
+     *
      * @return void
      */
-    public function setView($path) {
-        $this->view = new File(Folders::folder('views') . $path);
-        $this->cacheName = Folders::folder('cache') . sha1($this->view->name) . '.php';
+    public function setView($path)
+    {
+        $this->view = new File(Folders::folder('views').$path);
+        $this->cacheName = Folders::folder('cache').sha1($this->view->name).'.php';
     }
 
     /**
      * Set the template layout.
      *
      * @param $name The layout name.
+     *
      * @return void
      */
-    public function setLayout($name) {
-        $this->layout = new File(Folders::folder('layouts') . $name);
+    public function setLayout($name)
+    {
+        $this->layout = new File(Folders::folder('layouts').$name);
     }
 
     /**
-     * Put the view into the layout
+     * Put the view into the layout.
      *
      * @return string The Layout content with the view content.
      */
     public function putView()
     {
-        /** Replace the view tag (<view>) with the view content */
+        /* Replace the view tag (<view>) with the view content */
         return str_replace(
             '<view>',
             $this->view->content,
@@ -102,10 +104,12 @@ class Template
      * Find and store the block from the template content.
      *
      * @param string $content The template content.
-     * @param array $blocks The template blocks.
+     * @param array  $blocks  The template blocks.
+     *
      * @return array The updated template blocks.
      */
-    public function blocks($content, array $blocks = []) {
+    public function blocks($content, array $blocks = [])
+    {
         return $this->blocks = Blocks::get($content, $blocks);
     }
 
@@ -113,29 +117,31 @@ class Template
      * Replace the block tags with the block content.
      *
      * @param string $content The template content.
+     *
      * @return string The updated template content
      */
     public function blockOutput($content)
     {
-        foreach($this->blocks as $key => $value)
-        {
+        foreach ($this->blocks as $key => $value) {
             $content = preg_replace(
                 "'<block=\"{$key}\">(.*?)</block>'si",
                 $value,
                 $content
             );
         }
+
         return $content;
     }
 
     /**
-     * Replace the include tags with the include files content
+     * Replace the include tags with the include files content.
      *
      * @param string $content The template content.
+     *
      * @return string The updated template content.
      */
-    public function includes($content) {
-
+    public function includes($content)
+    {
         $includes = Includes::get($content);
 
         return str_replace(
@@ -149,10 +155,11 @@ class Template
      * Replace the control structures tags.
      *
      * @param string $content The template content.
+     *
      * @return string The updated template content.
      */
-    public function tags($content) {
-
+    public function tags($content)
+    {
         $tags = Tags::get($content);
 
         return str_replace(
@@ -166,11 +173,12 @@ class Template
      * Get the timestamp of the newer file.
      *
      * @todo Add the timestamp from the includes.
+     *
      * @return int The max timestamp from the View and the Layout.
      */
     public function timestamp()
     {
-        /** Set the layout and view timestamp */
+        /* Set the layout and view timestamp */
         return $this->timestamp = max(
             //$this->timestamp,
             $this->view->timestamp,

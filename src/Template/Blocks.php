@@ -2,7 +2,6 @@
 
 namespace Amber\Sketch\Template;
 
-
 /**
  * Handle the template blocks.
  */
@@ -12,11 +11,12 @@ class Blocks
      * Find the block tags in the content.
      *
      * @param string $content The template content.
+     *
      * @return array The matches of the blocks.
      */
     public static function find($content)
     {
-        /**
+        /*
          * Search all block tags on the content.
          *
          * The regex match tags like <block="name">*</block>
@@ -26,9 +26,10 @@ class Blocks
             $content,
             $blocks
         );
+
         return (object) [
-            'match' => $blocks[0],
-            'name' => $blocks[1],
+            'match'   => $blocks[0],
+            'name'    => $blocks[1],
             'content' => $blocks[2],
         ];
     }
@@ -37,6 +38,7 @@ class Blocks
      * Get the content from the blocks.
      *
      * @param string $content The template content.
+     *
      * @return object The tag matches and the output to replace the tags
      */
     public static function get($content, array $blocks = [])
@@ -44,10 +46,10 @@ class Blocks
         /** Get the blocks from the template content */
         $match = self::find($content);
 
-        /** Iterate each match */
-        for($x = 0; $x < count($match->name); $x++) {
+        /* Iterate each match */
+        for ($x = 0; $x < count($match->name); $x++) {
 
-            /** Set/update the blocks */
+            /* Set/update the blocks */
             $blocks[$match->name[$x]] = str_replace(
                 '<parent>',
                 $blocks[$match->name[$x]] ?? null,
@@ -55,7 +57,7 @@ class Blocks
             );
         }
 
-        /** Returns the blocks */
+        /* Returns the blocks */
         return $blocks;
     }
 }
