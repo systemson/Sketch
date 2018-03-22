@@ -1,0 +1,17 @@
+{
+  "name": "amber/sketch",
+  "version": "0.1",
+  "autoload": {
+    "psr-4": {
+      "Amber\\Sketch\\": "src/"
+    }
+  },
+    "require": {
+        "php": ">=7.0.0",
+        "nesbot/carbon": "^1.22",
+        "league/flysystem": "^1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.5"
+    }
+}
