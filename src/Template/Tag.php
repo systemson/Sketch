@@ -3,15 +3,16 @@
 namespace Amber\Sketch\Template;
 
 /**
- * The control structures tag
+ * The control structures tag.
  */
 class Tag
 {
     /**
      * Open the control structure.
      *
-     * @param string $name The name of the control structure.
+     * @param string $name      The name of the control structure.
      * @param string $statement The statement of the control structure.
+     *
      * @return string The opening for control structure.
      */
     public static function open($name, $statement = null)
@@ -19,11 +20,11 @@ class Tag
         /** Name the control structure */
         $tag = "<?php {$name}";
 
-        /** If a statement if passed set the statement */
+        /* If a statement if passed set the statement */
         $tag .= $statement ? "({$statement}):" : null;
 
-        /** add the closing php tag */
-        $tag .= " ?>";
+        /* add the closing php tag */
+        $tag .= ' ?>';
 
         return $tag;
     }
@@ -32,6 +33,7 @@ class Tag
      * Close the control structure.
      *
      * @param string $name The name of the control structure.
+     *
      * @return string The closing for control structure.
      */
     public static function close($name)
