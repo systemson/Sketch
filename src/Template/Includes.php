@@ -2,8 +2,8 @@
 
 namespace Amber\Sketch\Template;
 
-use Amber\Filesystem\File;
 use Amber\Filesystem\Directories;
+use Amber\Filesystem\File;
 
 /**
  * Handle the template includes.

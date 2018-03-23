@@ -2,8 +2,8 @@
 
 namespace Amber\Sketch\Template;
 
-use Amber\Filesystem\File;
 use Amber\Filesystem\Directories;
+use Amber\Filesystem\File;
 
 /**
  * Handle the template request.
@@ -40,7 +40,7 @@ class Template
     /**
      * Instantiate the Template.
      *
-     * @param string $view The template view.
+     * @param string $view   The template view.
      * @param string $layout The template layout.
      *
      * @return void
