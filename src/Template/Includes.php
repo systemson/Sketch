@@ -2,8 +2,8 @@
 
 namespace Amber\Sketch\Template;
 
-use Amber\Sketch\Engine\File;
-use Amber\Sketch\Engine\Folders;
+use Amber\Filesystem\File;
+use Amber\Filesystem\Directories;
 
 /**
  * Handle the template includes.
@@ -53,7 +53,7 @@ class Includes
 
             /* Add the includes files */
             $files[] = new File(
-                Folders::folder('includes').str_replace('.', '/', $name)
+                Directories::directories('includes').str_replace('.', '/', $name)
             );
         }
 

@@ -2,8 +2,8 @@
 
 namespace Amber\Sketch\Template;
 
-use Amber\Sketch\Engine\File;
-use Amber\Sketch\Engine\Folders;
+use Amber\Filesystem\File;
+use Amber\Filesystem\Directories;
 
 /**
  * Handle the template request.
@@ -69,8 +69,8 @@ class Template
      */
     public function setView($path)
     {
-        $this->view = new File(Folders::folder('views').$path);
-        $this->cacheName = Folders::folder('cache').sha1($this->view->name).'.php';
+        $this->view = new File(Directories::directories('views').$path);
+        $this->cacheName = Directories::directories('cache').sha1($this->view->name).'.php';
     }
 
     /**
@@ -82,7 +82,7 @@ class Template
      */
     public function setLayout($name)
     {
-        $this->layout = new File(Folders::folder('layouts').$name);
+        $this->layout = new File(Directories::directories('layouts').$name);
     }
 
     /**

@@ -2,7 +2,7 @@
 
 namespace Amber\Sketch\Compiler;
 
-use Amber\Sketch\Engine\Filesystem;
+use Amber\Filesystem\Filesystem;
 use Amber\Sketch\Template\Template;
 
 /**
