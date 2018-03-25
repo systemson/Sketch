@@ -36,8 +36,8 @@ class Sketch
     /**
      * Draw the template.
      *
-     * @param string $view   The relative path to the view.
-     * @param array  $data   The template data.
+     * @param string $view The relative path to the view.
+     * @param array  $data The template data.
      *
      * @return mixed
      */
