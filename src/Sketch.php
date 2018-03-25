@@ -10,9 +10,27 @@ use Amber\Sketch\Template\Template;
  */
 class Sketch
 {
-    /** Set private to prevent instance of this class. */
-    private function __construct()
+    /**
+     * @var object Amber\Sketch\Template\Template::class
+     */
+    public $template;
+
+    /**
+     * @var object Amber\Sketch\Compiler\Compiler::class
+     */
+    public $compiler;
+
+    /**
+     * Instantiate the Sketch class.
+     *
+     * @param object $template \Amber\Sketch\Template\Template
+     * @param object $compiler \Amber\Sketch\Compiler\Compiler
+     */
+    public function __construct(Template $template, Compiler $compiler)
     {
+        $this->template = $template;
+
+        $this->compiler = $compiler;
     }
 
     /**
@@ -20,26 +38,18 @@ class Sketch
      *
      * @param string $view   The relative path to the view.
      * @param array  $data   The template data.
-     * @param array  $config The template config.
      *
      * @return mixed
      */
-    public static function draw($view, array $data = [], array $config = [])
+    public function draw($view, array $data = [])
     {
-
-        /** @var object Amber\Sketch\Template\Template::class */
-        $template = new Template($view, 'app');
-
-        /** @var object Amber\Sketch\Compiler\Compiler::class */
-        $compiler = new Compiler();
-
         /* Make the cache file */
-        $compiler->make($template);
+        $this->compiler->make($this->template);
 
         /* Extract the data from the response. */
         extract($data);
 
-        /** Include the cache template file */
-        include APP_PATH.$template->cacheName;
+        /* Include the cache template file */
+        include APP_PATH.$this->template->cacheName;
     }
 }

@@ -1,6 +1,6 @@
 {
     "name": "amber/sketch",
-    "description": "PHP lightweight templating engine.",
+    "description": "Lightweight PHP templating engine.",
     "type": "library",
     "license": "GPL-3.0-or-later",
     "authors": [
@@ -9,7 +9,7 @@
             "email": "systemson@gmail.com"
         }
     ],
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "autoload": {
         "psr-4": {
             "Amber\\Sketch\\": "src/"
@@ -19,15 +19,22 @@
         {
             "type": "vcs",
             "url": "https://github.com/systemson/Filesystem"
+        },
+
+        {
+            "type": "vcs",
+            "url": "https://github.com/systemson/Container"
         }
     ],
     "require": {
         "php": ">=7.0.0",
-        "nesbot/carbon": "^1.22",
-        "league/flysystem": "^1.0",
-        "amber/filesystem": "dev-master"
+        "amber/filesystem": "dev-master",
+        "amber/container": "dev-master"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.5"
+    },
+    "scripts": {
+        "test": "phpunit"
     }
 }
