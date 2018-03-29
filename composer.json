@@ -10,6 +10,7 @@
         }
     ],
     "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Amber\\Sketch\\": "src/"
@@ -34,6 +35,6 @@
         "phpunit/phpunit": "^6.5"
     },
     "scripts": {
-        "test": "phpunit"
+        "test": "phpunit --coverage-html ./tmp/coverage/"
     }
 }
