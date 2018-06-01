@@ -23,7 +23,7 @@
     },
     "require-dev": {
         "phpdocumentor/phpdocumentor": "^2.0",
-        "phpunit/phpunit": "^6.5"
+        "phpunit/phpunit": "^6.5|^7.0"
     },
     "scripts": {
         "test": "phpunit --verbose --coverage-html ./tmp/coverage/",
