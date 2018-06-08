@@ -4,13 +4,13 @@ namespace Amber\Sketch\Template;
 
 use Amber\Filesystem\Directories;
 use Amber\Filesystem\File;
+use Amber\Filesystem\Filesystem;
+use Amber\Sketch\Config\Config;
 
 /**
  * Handle the template request.
- *
- * @todo Get the newer file so the compiler can check if the cache file need to be remade.
  */
-class Template
+class Template implements TemplateInterface
 {
     /**
      * @var The template view.
@@ -25,7 +25,7 @@ class Template
     /**
      * @var The template cache name.
      */
-    public $cacheName;
+    public $name;
 
     /**
      * @var The template blocks.
@@ -45,19 +45,13 @@ class Template
      *
      * @return void
      */
-    public function __construct($view, $layout)
+    public function __construct($view, $layout = null)
     {
         /* Set the view name */
         $this->setView($view);
 
         /* Set the layout name */
         $this->setLayout($layout);
-
-        /* Get the blocks from the layout */
-        $this->blocks($this->layout->content, $this->blocks);
-
-        /* Get the blocks from the view */
-        $this->blocks($this->view->content, $this->blocks);
     }
 
     /**
@@ -67,10 +61,17 @@ class Template
      *
      * @return void
      */
-    public function setView($path)
+    public function setView($name)
     {
-        $this->view = new File(Directories::directories('views').$path);
-        $this->cacheName = Directories::directories('cache').sha1($this->view->name).'.php';
+        $path = Config::folder('views').$name;
+
+        if (!file_exists($path)) {
+            throw new \Exception("File {$path} does not exists");
+        }
+
+        $this->view = new File(Filesystem::getInstance(), $path);
+        $this->name = $name;
+        $this->cacheName = Config::get('cache').sha1($this->name);
     }
 
     /**
@@ -82,7 +83,27 @@ class Template
      */
     public function setLayout($name)
     {
-        $this->layout = new File(Directories::directories('layouts').$name);
+        $path = Config::folder('layouts').$name;
+
+        if (!file_exists($path)) {
+            throw new \Exception("File {$path} does not exists");
+        }
+
+        $this->layout = new File(Filesystem::getInstance(), $path);
+    }
+
+    /**
+     * Set the template data.
+     *
+     * @param $data The template data.
+     *
+     * @return void
+     */
+    public function setData($data = [])
+    {
+        foreach ($data as $key => $value) {
+            $this->data[$key] = $value;
+        } 
     }
 
     /**
@@ -108,10 +129,10 @@ class Template
      *
      * @return array The updated template blocks.
      */
-    public function blocks($content, array $blocks = [])
+    /*public function blocks($content, array $blocks = []) : array
     {
         return $this->blocks = Blocks::get($content, $blocks);
-    }
+    }*/
 
     /**
      * Replace the block tags with the block content.
@@ -120,7 +141,7 @@ class Template
      *
      * @return string The updated template content
      */
-    public function blockOutput($content)
+    /*public function blockOutput($content)
     {
         foreach ($this->blocks as $key => $value) {
             $content = preg_replace(
@@ -131,7 +152,7 @@ class Template
         }
 
         return $content;
-    }
+    }*/
 
     /**
      * Replace the include tags with the include files content.
@@ -140,7 +161,7 @@ class Template
      *
      * @return string The updated template content.
      */
-    public function includes($content)
+    /*public function includes($content)
     {
         $includes = Includes::get($content);
 
@@ -149,7 +170,7 @@ class Template
             array_column($includes->files, 'content'),
             $content
         );
-    }
+    }*/
 
     /**
      * Replace the control structures tags.
@@ -158,7 +179,7 @@ class Template
      *
      * @return string The updated template content.
      */
-    public function tags($content)
+    /*public function tags($content)
     {
         $tags = Tags::get($content);
 
@@ -167,7 +188,7 @@ class Template
             $tags->output,
             $content
         );
-    }
+    }*/
 
     /**
      * Get the timestamp of the newer file.
@@ -179,10 +200,9 @@ class Template
     public function timestamp()
     {
         /* Set the layout and view timestamp */
-        return $this->timestamp = max(
-            //$this->timestamp,
-            $this->view->timestamp,
-            $this->layout->timestamp
+        return max(
+            $this->view->getTimestamp(),
+            $this->layout->getTimestamp()
         );
     }
 
@@ -193,12 +213,22 @@ class Template
      */
     public function output()
     {
-        $content = $this->blockOutput($this->putView());
+        /*$content = $this->blockOutput($this->putView());
 
         $content = $this->includes($content);
 
         $content = $this->tags($content);
 
-        return $content;
+        return $content;*/
+    }
+
+    /**
+     * Returns a new Template instance for the cache file.
+     *
+     * @return string The updated final content.
+     */
+    public function cache()
+    {
+        return new File(Filesystem::getInstance(), $this->cacheName);
     }
 }

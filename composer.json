@@ -18,7 +18,7 @@
     },
     "require": {
         "php": ">=7.0.0",
-        "amber/filesystem": "dev-master",
+        "amber/common": "dev-master",
         "amber/container": "dev-master"
     },
     "require-dev": {

@@ -10,27 +10,26 @@ use Amber\Sketch\Template\Template;
  */
 class Sketch
 {
+    use Compiler;
     /**
-     * @var object Amber\Sketch\Template\Template::class
+     * @var object Amber\Sketch\Template\Template
      */
     public $template;
 
     /**
-     * @var object Amber\Sketch\Compiler\Compiler::class
+     * @var object Amber\Sketch\Compiler\Compiler
      */
     public $compiler;
 
     /**
-     * Instantiate the Sketch class.
+     * Instantiates the Sketch class.
      *
      * @param object $template \Amber\Sketch\Template\Template
      * @param object $compiler \Amber\Sketch\Compiler\Compiler
      */
-    public function __construct(Template $template, Compiler $compiler)
+    public function __construct($config)
     {
-        $this->template = $template;
-
-        $this->compiler = $compiler;
+        $this->config = $config;
     }
 
     /**
@@ -41,15 +40,25 @@ class Sketch
      *
      * @return mixed
      */
-    public function draw($view, array $data = [])
+    public function draw()
     {
         /* Make the cache file */
-        $this->compiler->make($this->template);
+        //$this->design($this->template);
 
         /* Extract the data from the response. */
-        extract($data);
+        //extract($this->data);
 
-        /* Include the cache template file */
-        include APP_PATH.$this->template->cacheName;
+        /* Include the cache template file. */
+        include $this->cache->getPath();
+    }
+
+    public function setTemplate(Template $template)
+    {
+        $this->template = $template;
+    }
+
+    public function setCompiler(Compiler $compiler)
+    {
+        $this->compiler = $compiler;
     }
 }

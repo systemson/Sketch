@@ -1,6 +1,6 @@
 <?php
 
-namespace Amber\Sketch\Template;
+namespace Amber\Sketch\Plugins;
 
 use Amber\Filesystem\Directories;
 use Amber\Filesystem\File;
@@ -47,6 +47,8 @@ class Includes
     {
         /** Get the include tags from the template file */
         $includes = self::find($content);
+
+        $files = [];
 
         /* For each include tag */
         foreach ($includes->name as $name) {

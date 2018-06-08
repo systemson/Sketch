@@ -1,6 +1,6 @@
 <?php
 
-namespace Amber\Sketch\Template;
+namespace Amber\Sketch\Plugins;
 
 /**
  * Handle the control structures from the template content.

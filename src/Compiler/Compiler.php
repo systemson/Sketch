@@ -10,27 +10,27 @@ use Amber\Sketch\Template\Template;
  *
  * This class is in charge of handling the cache file.
  */
-class Compiler
+trait Compiler
 {
     /**
      * Make the compiled cache file.
      *
-     * @param object $template Amber\Sketch\Template\Template::class
+     * @param object $template Amber\Sketch\Template\Template
      *
      * @return void
      */
-    public function make(Template $template)
+    public function design(Template $template)
     {
-
         /* Check if the cache file is expired. */
         if ($this->isExpired($template)) {
 
-            /* Write the file in the cache. */
-            Filesystem::put(
-                $template->cacheName,
-                $template->output()
-            );
+            $this->cache = $template->cache();
+
+            $this->cache->setContent($template->output());
+            $this->cache->save();
         }
+
+        $this->template = $template;
     }
 
     /**
@@ -40,13 +40,15 @@ class Compiler
      */
     public function isExpired(Template $template)
     {
-
+        $cacheName = $template->cacheName;
+var_dump($cacheName);
         /* Checks if the cache file don't exists */
-        if (!Filesystem::has($template->cacheName)) {
+        if (!Filesystem::has($cacheName)) {
             return true;
+        }
 
         /* Check if the cache file is older than the template */
-        } elseif (Filesystem::getTimestamp($template->cacheName) < $template->timestamp()) {
+        if (Filesystem::getTimestamp($cacheName) < $template->timestamp()) {
             return true;
         }
 
