@@ -2,18 +2,14 @@
 
 return [
 
-    'basepath' => getcwd().DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR,
-
-    'cache' =>  getcwd().DIRECTORY_SEPARATOR.'tmp'.
-    DIRECTORY_SEPARATOR.'cache'.
-    DIRECTORY_SEPARATOR.'views'.
-    DIRECTORY_SEPARATOR,
+    'basepath' => getcwd().DIRECTORY_SEPARATOR,
 
     'folders' => [
-        'views' => '',
-        'layouts' => 'layouts',
-        'includes' => 'includes',
-        'partials' =>  'includes\partials',
+        'views' => 'views',
+        'layouts' => 'views/layouts',
+        'includes' => 'views/includes',
+        'partials' =>  'views/includes/partials',
+        'cache' => 'tmp/cache',
     ],
 
 ];

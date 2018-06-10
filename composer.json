@@ -18,12 +18,12 @@
     },
     "require": {
         "php": ">=7.0.0",
-        "amber/common": "dev-master",
-        "amber/container": "dev-master"
+        "amber/common": "dev-master"
     },
     "require-dev": {
         "phpdocumentor/phpdocumentor": "^2.0",
-        "phpunit/phpunit": "^6.5"
+        "phpunit/phpunit": "^6.5",
+        "amber/container": "dev-master"
     },
     "scripts": {
         "test": "phpunit --verbose --coverage-html ./tmp/coverage/",

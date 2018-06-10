@@ -12,6 +12,8 @@ use Amber\Sketch\Template\Template;
  */
 trait Compiler
 {
+    public $cache;
+
     /**
      * Make the compiled cache file.
      *
@@ -22,13 +24,13 @@ trait Compiler
     public function design(Template $template)
     {
         /* Check if the cache file is expired. */
-        if ($this->isExpired($template)) {
+        //if ($this->isExpired($template) && false) {
 
             $this->cache = $template->cache();
 
             $this->cache->setContent($template->output());
             $this->cache->save();
-        }
+        //}
 
         $this->template = $template;
     }
@@ -41,7 +43,7 @@ trait Compiler
     public function isExpired(Template $template)
     {
         $cacheName = $template->cacheName;
-var_dump($cacheName);
+
         /* Checks if the cache file don't exists */
         if (!Filesystem::has($cacheName)) {
             return true;

@@ -31,12 +31,7 @@ class Config
 
     public static function folder($config)
     {
-        return Config::get('basepath').Config::get('folders.'.$config).DIRECTORY_SEPARATOR;
+        return Config::get('folders.'.$config).DIRECTORY_SEPARATOR;
 
-    }
-
-    protected function handleFolders($folders = [])
-    {
-        return true;
     }
 }

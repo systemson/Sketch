@@ -1,6 +1,8 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-require __DIR__.'\..\vendor\autoload.php';
+require __DIR__.'/../vendor/autoload.php';
 
 use Amber\Sketch\Sketch;
 use Amber\Sketch\Template\Template;
@@ -26,7 +28,7 @@ $template = new Template($view, $layout, $data);
 //$template->setView($view);
 //$template->setLayout($layout);
 //$template->setData(['data' => 'data']);
-var_dump($template);
+
 /* Se instancia el borrador */
 $sketch = new Sketch($config);
 

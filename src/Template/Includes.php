@@ -1,9 +1,10 @@
 <?php
 
-namespace Amber\Sketch\Plugins;
+namespace Amber\Sketch\Template;
 
 use Amber\Filesystem\Directories;
 use Amber\Filesystem\File;
+use Amber\Sketch\Config\Config;
 
 /**
  * Handle the template includes.
@@ -55,7 +56,7 @@ class Includes
 
             /* Add the includes files */
             $files[] = new File(
-                Directories::directories('includes').str_replace('.', '/', $name)
+                Config::folder('includes').str_replace('.', '/', $name).'.php'
             );
         }
 

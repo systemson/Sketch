@@ -69,9 +69,9 @@ class Template implements TemplateInterface
             throw new \Exception("File {$path} does not exists");
         }
 
-        $this->view = new File(Filesystem::getInstance(), $path);
+        $this->view = new File($path);
         $this->name = $name;
-        $this->cacheName = Config::get('cache').sha1($this->name);
+        $this->cacheName = Config::folder('cache').sha1($this->name);
     }
 
     /**
@@ -89,7 +89,7 @@ class Template implements TemplateInterface
             throw new \Exception("File {$path} does not exists");
         }
 
-        $this->layout = new File(Filesystem::getInstance(), $path);
+        $this->layout = new File($path);
     }
 
     /**
@@ -103,7 +103,7 @@ class Template implements TemplateInterface
     {
         foreach ($data as $key => $value) {
             $this->data[$key] = $value;
-        } 
+        }
     }
 
     /**
@@ -115,9 +115,9 @@ class Template implements TemplateInterface
     {
         /* Replace the view tag (<view>) with the view content */
         return str_replace(
-            '<view>',
-            $this->view->content,
-            $this->layout->content
+            '<sketch>',
+            $this->view->getContent(),
+            $this->layout->getContent()
         );
     }
 
@@ -161,7 +161,7 @@ class Template implements TemplateInterface
      *
      * @return string The updated template content.
      */
-    /*public function includes($content)
+    public function includes($content)
     {
         $includes = Includes::get($content);
 
@@ -170,7 +170,7 @@ class Template implements TemplateInterface
             array_column($includes->files, 'content'),
             $content
         );
-    }*/
+    }
 
     /**
      * Replace the control structures tags.
@@ -213,13 +213,13 @@ class Template implements TemplateInterface
      */
     public function output()
     {
-        /*$content = $this->blockOutput($this->putView());
+        $content = $this->putView();
 
         $content = $this->includes($content);
 
-        $content = $this->tags($content);
+        //$content = $this->tags($content);*/
 
-        return $content;*/
+        return $content;
     }
 
     /**
@@ -229,6 +229,6 @@ class Template implements TemplateInterface
      */
     public function cache()
     {
-        return new File(Filesystem::getInstance(), $this->cacheName);
+        return new File($this->cacheName, $this->output());
     }
 }
