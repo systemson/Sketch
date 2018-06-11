@@ -2,8 +2,8 @@
 
 namespace Amber\Sketch;
 
-use Amber\Sketch\Config\Config;
 use Amber\Sketch\Compiler\Compiler;
+use Amber\Sketch\Config\Config;
 use Amber\Sketch\Template\Template;
 
 /**

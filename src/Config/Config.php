@@ -31,6 +31,7 @@ class Config
     public static function folder($config)
     {
         $raw = self::get('folders.'.$config);
+
         return self::normalizePath($raw).DIRECTORY_SEPARATOR;
     }
 
