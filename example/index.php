@@ -1,4 +1,5 @@
 <?php
+
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -13,12 +14,12 @@ $data = [];
 
 $config = [
     'basepath' => getcwd(),
-    'folders' => [
-        'views' => 'views',
-        'layouts' => 'layouts',
+    'folders'  => [
+        'views'    => 'views',
+        'layouts'  => 'layouts',
         'includes' => 'includes',
-        'partials' =>  'includes/partials',
-        'cache' =>  'cache',
+        'partials' => 'includes/partials',
+        'cache'    => 'cache',
     ],
 ];
 

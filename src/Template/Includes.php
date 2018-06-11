@@ -2,7 +2,6 @@
 
 namespace Amber\Sketch\Template;
 
-use Amber\Filesystem\Directories;
 use Amber\Filesystem\File;
 use Amber\Sketch\Config\Config;
 

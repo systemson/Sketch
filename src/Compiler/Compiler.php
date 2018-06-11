@@ -26,10 +26,10 @@ trait Compiler
         /* Check if the cache file is expired. */
         //if ($this->isExpired($template) && false) {
 
-            $this->cache = $template->cache();
+        $this->cache = $template->cache();
 
-            $this->cache->setContent($template->output());
-            $this->cache->save();
+        $this->cache->setContent($template->output());
+        $this->cache->save();
         //}
 
         $this->template = $template;

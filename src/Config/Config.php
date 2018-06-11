@@ -6,8 +6,8 @@ class Config
 {
     public static $config = [];
 
-    public static function init($config = []) {
-
+    public static function init($config = [])
+    {
         self::$config = include __DIR__.DIRECTORY_SEPARATOR.'default.php';
     }
 
@@ -26,12 +26,10 @@ class Config
         }
 
         return $config;
-
     }
 
     public static function folder($config)
     {
-        return Config::get('folders.'.$config).DIRECTORY_SEPARATOR;
-
+        return self::get('folders.'.$config).DIRECTORY_SEPARATOR;
     }
 }
