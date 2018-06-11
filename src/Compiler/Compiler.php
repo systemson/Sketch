@@ -21,16 +21,15 @@ trait Compiler
      *
      * @return void
      */
-    public function design(Template $template)
+    public function design(Template $template, $override = false)
     {
         /* Check if the cache file is expired. */
-        //if ($this->isExpired($template) && false) {
-
         $this->cache = $template->cache();
 
-        $this->cache->setContent($template->output());
-        $this->cache->save();
-        //}
+        if ($this->isExpired($template) || $override) {
+            $this->cache->setContent($template->output());
+            $this->cache->save();
+        }
 
         $this->template = $template;
     }
@@ -42,15 +41,13 @@ trait Compiler
      */
     public function isExpired(Template $template)
     {
-        $cacheName = $template->cacheName;
+        $cache = $template->cache();
 
-        /* Checks if the cache file don't exists */
-        if (!Filesystem::has($cacheName)) {
+        if (!Filesystem::has($cache->getPath())) {
             return true;
         }
 
-        /* Check if the cache file is older than the template */
-        if (Filesystem::getTimestamp($cacheName) < $template->timestamp()) {
+        if ($cache->getTimestamp() < $template->getTimestamp()) {
             return true;
         }
 

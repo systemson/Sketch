@@ -29,7 +29,7 @@ interface TemplateInterface
      *
      * @return int The max timestamp from the View and the Layout.
      */
-    public function timestamp();
+    public function getTimestamp();
 
     /**
      * Outputs the template final content.

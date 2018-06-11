@@ -2,6 +2,7 @@
 
 namespace Amber\Sketch;
 
+use Amber\Sketch\Config\Config;
 use Amber\Sketch\Compiler\Compiler;
 use Amber\Sketch\Template\Template;
 
@@ -49,7 +50,7 @@ class Sketch
         //extract($this->data);
 
         /* Include the cache template file. */
-        include $this->cache->getPath();
+        include Config::get('basepath').$this->cache->getPath();
     }
 
     public function setTemplate(Template $template)

@@ -30,6 +30,12 @@ class Config
 
     public static function folder($config)
     {
-        return self::get('folders.'.$config).DIRECTORY_SEPARATOR;
+        $raw = self::get('folders.'.$config);
+        return self::normalizePath($raw).DIRECTORY_SEPARATOR;
+    }
+
+    protected static function normalizePath($path)
+    {
+        return str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $path);
     }
 }

@@ -26,15 +26,11 @@ $config = [
 /* Se crea la plantilla */
 $template = new Template($view, $layout, $data);
 
-//$template->setView($view);
-//$template->setLayout($layout);
-//$template->setData(['data' => 'data']);
-
 /* Se instancia el borrador */
 $sketch = new Sketch($config);
 
 /* Se compila la plantilla */
-$sketch->design($template, ['lol' => 'lol', 'lal' => 'lal']);
+$sketch->design($template);
 
 /* Se muestra el diseño */
 $sketch->draw();

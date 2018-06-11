@@ -21,9 +21,14 @@ class Template implements TemplateInterface
     public $layout;
 
     /**
+     * @var The template data.
+     */
+    public $data = [];
+
+    /**
      * @var The template cache name.
      */
-    public $name;
+    public $cacheName;
 
     /**
      * @var The template blocks.
@@ -40,16 +45,20 @@ class Template implements TemplateInterface
      *
      * @param string $view   The template view.
      * @param string $layout The template layout.
+     * @param string $data   The template data.
      *
      * @return void
      */
-    public function __construct($view, $layout = null)
+    public function __construct($view = null, $layout = null, $data = [])
     {
-        /* Set the view name */
+        /* Set the view name. */
         $this->setView($view);
 
-        /* Set the layout name */
+        /* Set the layout name. */
         $this->setLayout($layout);
+        
+        /* Set the template data. */
+        $this->setData($data);
     }
 
     /**
@@ -195,7 +204,7 @@ class Template implements TemplateInterface
      *
      * @return int The max timestamp from the View and the Layout.
      */
-    public function timestamp()
+    public function getTimestamp()
     {
         /* Set the layout and view timestamp */
         return max(
