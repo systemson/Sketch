@@ -56,7 +56,7 @@ class Template implements TemplateInterface
 
         /* Set the layout name. */
         $this->setLayout($layout);
-        
+
         /* Set the template data. */
         $this->setData($data);
     }
