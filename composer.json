@@ -22,7 +22,7 @@
     },
     "require-dev": {
         "phpdocumentor/phpdocumentor": "^2.0",
-        "phpunit/phpunit": "^6.5",
+        "phpunit/phpunit": "^6.5|^7.0",
         "amber/container": "dev-master"
     },
     "scripts": {
