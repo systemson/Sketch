@@ -50,7 +50,7 @@ class Sketch
         //extract($this->data);
 
         /* Include the cache template file. */
-        include Config::get('basepath').$this->cache->getPath();
+        include Config::get('basepath').$this->cache()->getPath();
     }
 
     public function setTemplate(Template $template)

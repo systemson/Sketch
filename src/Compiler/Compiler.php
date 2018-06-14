@@ -2,7 +2,7 @@
 
 namespace Amber\Sketch\Compiler;
 
-use Amber\Filesystem\Filesystem;
+use Amber\Filesystem\File;
 use Amber\Sketch\Template\Template;
 
 /**
@@ -12,7 +12,23 @@ use Amber\Sketch\Template\Template;
  */
 trait Compiler
 {
-    public $cache;
+    protected $cache;
+
+    public function setCache(File $cache)
+    {
+        $this->cache = $cache;
+
+        return true;
+    }
+
+    public function cache()
+    {
+        if ($this->cache instanceof File) {
+            return $this->cache;
+        }
+
+        return $this->cache = $this->template->cache();
+    }
 
     /**
      * Make the compiled cache file.
@@ -21,17 +37,17 @@ trait Compiler
      *
      * @return void
      */
-    public function design(Template $template, $override = false)
+    public function design($view, $layout, $data, $override = false)
     {
-        /* Check if the cache file is expired. */
-        $this->cache = $template->cache();
+        $this->template = new Template($view, $layout, $data);
 
-        if ($this->isExpired($template) || $override) {
-            $this->cache->setContent($template->output());
+        /* Check if the cache file is expired. */
+        $this->setCache($this->template->cache());
+
+        if ($this->isExpired() || $override) {
+            $this->cache->setContent($this->template->output());
             $this->cache->save();
         }
-
-        $this->template = $template;
     }
 
     /**
@@ -39,15 +55,13 @@ trait Compiler
      *
      * @return bool
      */
-    public function isExpired(Template $template)
+    public function isExpired()
     {
-        $cache = $template->cache();
-
-        if (!Filesystem::has($cache->getPath())) {
+        if (!$this->cache()->exists()) {
             return true;
         }
 
-        if ($cache->getTimestamp() < $template->getTimestamp()) {
+        if ($this->cache()->getTimestamp() < $this->template->getTimestamp()) {
             return true;
         }
 

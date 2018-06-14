@@ -23,14 +23,11 @@ $config = [
     ],
 ];
 
-/* Se crea la plantilla */
-$template = new Template($view, $layout, $data);
-
 /* Se instancia el borrador */
 $sketch = new Sketch($config);
 
 /* Se compila la plantilla */
-$sketch->design($template);
+$sketch->design($view, $layout, $data);
 
 /* Se muestra el diseño */
 $sketch->draw();
