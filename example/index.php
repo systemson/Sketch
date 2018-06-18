@@ -13,13 +13,14 @@ $layout = 'layout.php';
 $data = [];
 
 $config = [
-    'basepath' => getcwd(),
+    'basepath'     => getcwd().'/',
+    'enviroment'   => 'dev',
     'folders'  => [
         'views'    => 'views',
-        'layouts'  => 'layouts',
-        'includes' => 'includes',
-        'partials' => 'includes/partials',
-        'cache'    => 'cache',
+        'layouts'  => 'views/layouts',
+        'includes' => 'views/includes',
+        'partials' => 'views/includes/partials',
+        'cache'    => 'tmp/cache/views',
     ],
 ];
 

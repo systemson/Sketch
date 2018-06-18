@@ -3,7 +3,6 @@
 namespace Amber\Sketch\Template;
 
 use Amber\Filesystem\File;
-use Amber\Sketch\Config\Config;
 
 /**
  * Handle the template request.
@@ -68,17 +67,15 @@ class Template implements TemplateInterface
      *
      * @return void
      */
-    public function setView($name)
+    public function setView($path)
     {
-        $path = Config::folder('views').$name;
+        $this->view = new File($path);
 
-        if (!file_exists($path)) {
-            throw new \Exception("File {$path} does not exists");
+        if (!$this->view->exists()) {
+            throw new \Exception("File {$this->view->getFullPath()} does not exists");
         }
 
-        $this->view = new File($path);
-        $this->name = $name;
-        $this->cacheName = Config::folder('cache').sha1($this->name);
+        $this->cacheName = sha1($path);
     }
 
     /**
@@ -88,15 +85,13 @@ class Template implements TemplateInterface
      *
      * @return void
      */
-    public function setLayout($name)
+    public function setLayout($path)
     {
-        $path = Config::folder('layouts').$name;
-
-        if (!file_exists($path)) {
-            throw new \Exception("File {$path} does not exists");
-        }
-
         $this->layout = new File($path);
+
+        if (!$this->layout->exists()) {
+            throw new \Exception("File {$this->layout->getFullPath()} does not exists");
+        }
     }
 
     /**
@@ -234,8 +229,8 @@ class Template implements TemplateInterface
      *
      * @return string The updated final content.
      */
-    public function cache()
+    public function cache($basepath = null)
     {
-        return new File($this->cacheName, $this->output());
+        return new File($basepath.$this->cacheName, $this->output());
     }
 }

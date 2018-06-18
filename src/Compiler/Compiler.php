@@ -37,16 +37,21 @@ trait Compiler
      *
      * @return void
      */
-    public function design($view, $layout, $data, $override = false)
+    public function design($view, $layout, $data)
     {
-        $this->template = new Template($view, $layout, $data);
+        $this->template = new Template(
+            $this->viewPath($view),
+            $this->layoutPath($layout),
+            $data,
+            $this->config
+        );
 
         /* Check if the cache file is expired. */
-        $this->setCache($this->template->cache());
+        $this->setCache($this->template->cache($this->getFolder('cache')));
 
-        if ($this->isExpired() || $override) {
-            $this->cache->setContent($this->template->output());
-            $this->cache->save();
+        if ($this->cacheExpired() || $this->getConfig('enviroment') == 'dev') {
+            $this->cache()->setContent($this->template->output());
+            $this->cache()->save();
         }
     }
 
@@ -55,7 +60,7 @@ trait Compiler
      *
      * @return bool
      */
-    public function isExpired()
+    public function cacheExpired()
     {
         if (!$this->cache()->exists()) {
             return true;

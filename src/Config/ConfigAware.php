@@ -29,7 +29,6 @@ trait ConfigAware
         return $config;
     }
 
-
     public function getFolder($folder)
     {
         $raw = $this->getConfig('folders.'.$folder);
@@ -37,8 +36,18 @@ trait ConfigAware
         return $this->normalizePath($raw).DIRECTORY_SEPARATOR;
     }
 
+    public function viewPath($view)
+    {
+        return $this->getFolder('views').$view;
+    }
+
+    public function layoutPath($layout)
+    {
+        return $this->getFolder('layouts').$layout;
+    }
+
     protected function normalizePath($path)
     {
-        return str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $path);
+        return str_replace(['/', '\\', '.'], DIRECTORY_SEPARATOR, $path);
     }
 }

@@ -3,15 +3,16 @@
 namespace Amber\Sketch;
 
 use Amber\Sketch\Compiler\Compiler;
-use Amber\Sketch\Config\Config;
+use Amber\Sketch\Config\ConfigAware;
+use Amber\Sketch\Config\ConfigAwareInterface;
 use Amber\Sketch\Template\Template;
 
 /**
  * This class handle the template view request.
  */
-class Sketch
+class Sketch implements ConfigAwareInterface
 {
-    use Compiler;
+    use Compiler, ConfigAware;
     /**
      * @var object Amber\Sketch\Template\Template
      */
@@ -50,7 +51,8 @@ class Sketch
         //extract($this->data);
 
         /* Include the cache template file. */
-        include Config::get('basepath').$this->cache()->getPath();
+        include $this->cache()->getFullPath();
+        var_dump($this->cache()->getFullPath());
     }
 
     public function setTemplate(Template $template)
