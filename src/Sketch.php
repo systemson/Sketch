@@ -34,6 +34,19 @@ class Sketch implements ConfigAwareInterface
         $this->config = $config;
     }
 
+    public function output()
+    {
+        ob_start();
+
+        /* Extract the data from the template */
+        extract($this->template->getData());
+
+        /* Include the template cache */
+        include $this->cache()->getFullPath();
+
+        return ob_get_clean();
+    }
+
     /**
      * Draw the template.
      *
@@ -44,15 +57,8 @@ class Sketch implements ConfigAwareInterface
      */
     public function draw()
     {
-        /* Make the cache file */
-        //$this->design($this->template);
+        echo $this->output();
 
-        /* Extract the data from the response. */
-        //extract($this->data);
-
-        /* Include the cache template file. */
-        include $this->cache()->getFullPath();
-        var_dump($this->cache()->getFullPath());
     }
 
     public function setTemplate(Template $template)

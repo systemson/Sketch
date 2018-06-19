@@ -20,6 +20,11 @@ class Template implements TemplateInterface
     public $layout;
 
     /**
+     * @var The template file content.
+     */
+    public $content;
+
+    /**
      * @var The template data.
      */
     public $data = [];
@@ -106,6 +111,11 @@ class Template implements TemplateInterface
         foreach ($data as $key => $value) {
             $this->data[$key] = $value;
         }
+    }
+
+    public function getData()
+    {
+        return $this->data;
     }
 
     /**
@@ -231,6 +241,6 @@ class Template implements TemplateInterface
      */
     public function cache($basepath = null)
     {
-        return new File($basepath.$this->cacheName, $this->output());
+        return new File($basepath.sha1($this->view->getPath()), $this->output());
     }
 }
