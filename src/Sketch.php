@@ -58,7 +58,6 @@ class Sketch implements ConfigAwareInterface
     public function draw()
     {
         echo $this->output();
-
     }
 
     public function setTemplate(Template $template)

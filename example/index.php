@@ -6,7 +6,6 @@ ini_set('display_errors', 1);
 require __DIR__.'/../vendor/autoload.php';
 
 use Amber\Sketch\Sketch;
-use Amber\Sketch\Template\Template;
 
 $view = 'view.php';
 $layout = 'layout.php';
@@ -15,7 +14,7 @@ $data = [];
 $config = [
     'basepath'     => getcwd().'/',
     'enviroment'   => 'dev',
-    'folders'  => [
+    'folders'      => [
         'views'    => 'views',
         'layouts'  => 'views/layouts',
         'includes' => 'views/includes',

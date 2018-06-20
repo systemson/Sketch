@@ -8,8 +8,7 @@ trait ConfigAware
 
     public function setConfig(array $config)
     {
-        foreach($config as $key => $value)
-        {
+        foreach ($config as $key => $value) {
             $this->config[$key] = $value;
         }
     }
