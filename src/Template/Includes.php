@@ -52,10 +52,9 @@ class Includes
 
         /* For each include tag */
         foreach ($includes->name as $name) {
-
             /* Add the includes files */
             $files[] = new File(
-                Config::folder('includes').str_replace('.', '/', $name).'.php'
+                Config::folder('includes') . str_replace('.', '/', $name) . '.php'
             );
         }
 

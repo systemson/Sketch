@@ -75,7 +75,6 @@ class Template implements TemplateInterface
     public function setView($path)
     {
         $this->view = new File($path);
-
         if (!$this->view->exists()) {
             throw new \Exception("File {$this->view->getFullPath()} does not exists");
         }
@@ -93,7 +92,6 @@ class Template implements TemplateInterface
     public function setLayout($path)
     {
         $this->layout = new File($path);
-
         if (!$this->layout->exists()) {
             throw new \Exception("File {$this->layout->getFullPath()} does not exists");
         }
@@ -241,6 +239,6 @@ class Template implements TemplateInterface
      */
     public function cache($basepath = null)
     {
-        return new File($basepath.sha1($this->view->getPath()), $this->output());
+        return new File($basepath . sha1($this->view->getPath()), $this->output());
     }
 }

@@ -8,7 +8,7 @@ class Config
 
     public static function init($config = [])
     {
-        self::$config = include __DIR__.DIRECTORY_SEPARATOR.'default.php';
+        self::$config = include __DIR__ . DIRECTORY_SEPARATOR . 'default.php';
     }
 
     public static function get($config)
@@ -30,9 +30,9 @@ class Config
 
     public static function folder($config)
     {
-        $raw = self::get('folders.'.$config);
+        $raw = self::get('folders.' . $config);
 
-        return self::normalizePath($raw).DIRECTORY_SEPARATOR;
+        return self::normalizePath($raw) . DIRECTORY_SEPARATOR;
     }
 
     protected static function normalizePath($path)

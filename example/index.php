@@ -11,7 +11,7 @@ $view = 'view.php';
 $layout = 'layout.php';
 $data = [];
 
-$config = [
+$env = [
     'basepath'     => getcwd().'/',
     'enviroment'   => 'dev',
     'folders'      => [
@@ -21,10 +21,20 @@ $config = [
         'partials' => 'views/includes/partials',
         'cache'    => 'tmp/cache/views',
     ],
+    'tags'         => [
+        'if'       => '',
+        'elseif'   => '',
+        'else'     => '',
+        'endif'    => '',
+        'foreach'  => '',
+        'endforeach'=> '',
+        'while'    => '',
+        'while'    => '',
+    ],
 ];
 
 /* Se instancia el borrador */
-$sketch = new Sketch($config);
+$sketch = new Sketch($env);
 
 /* Se compila la plantilla */
 $sketch->design($view, $layout, $data);

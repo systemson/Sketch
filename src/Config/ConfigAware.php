@@ -30,19 +30,19 @@ trait ConfigAware
 
     public function getFolder($folder)
     {
-        $raw = $this->getConfig('folders.'.$folder);
+        $raw = $this->getConfig('folders.' . $folder);
 
-        return $this->normalizePath($raw).DIRECTORY_SEPARATOR;
+        return $this->normalizePath($raw) . DIRECTORY_SEPARATOR;
     }
 
     public function viewPath($view)
     {
-        return $this->getFolder('views').$view;
+        return $this->getFolder('views') . $view;
     }
 
     public function layoutPath($layout)
     {
-        return $this->getFolder('layouts').$layout;
+        return $this->getFolder('layouts') . $layout;
     }
 
     protected function normalizePath($path)

@@ -48,7 +48,6 @@ class Blocks
 
         /* Iterate each match */
         for ($x = 0; $x < count($match->name); $x++) {
-
             /* Set/update the blocks */
             $blocks[$match->name[$x]] = str_replace(
                 '<parent>',

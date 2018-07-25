@@ -2,7 +2,7 @@
 
 return [
 
-    'basepath' => getcwd().DIRECTORY_SEPARATOR,
+    'basepath' => getcwd() . DIRECTORY_SEPARATOR,
 
     'folders' => [
         'views'    => 'views',
