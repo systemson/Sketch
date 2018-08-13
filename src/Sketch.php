@@ -3,8 +3,8 @@
 namespace Amber\Sketch;
 
 use Amber\Sketch\Compiler\Compiler;
-use Amber\Sketch\Config\ConfigAware;
 use Amber\Sketch\Config\ConfigAwareInterface;
+use Amber\Sketch\Config\ConfigAwareTrait;
 use Amber\Sketch\Template\Template;
 
 /**
@@ -12,7 +12,7 @@ use Amber\Sketch\Template\Template;
  */
 class Sketch implements ConfigAwareInterface
 {
-    use Compiler, ConfigAware;
+    use Compiler, ConfigAwareTrait;
     /**
      * @var object Amber\Sketch\Template\Template
      */

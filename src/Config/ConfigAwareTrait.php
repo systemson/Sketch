@@ -2,31 +2,11 @@
 
 namespace Amber\Sketch\Config;
 
-trait ConfigAware
+use Amber\Config\ConfigAwareTrait as BaseConfig;
+
+trait ConfigAwareTrait
 {
-    public $config = [];
-
-    public function setConfig(array $config)
-    {
-        foreach ($config as $key => $value) {
-            $this->config[$key] = $value;
-        }
-    }
-
-    public function getConfig(string $key, $default = null)
-    {
-        $config = $this->config;
-
-        foreach (explode('.', $key) as $search) {
-            if (isset($config[$search])) {
-                $config = $config[$search];
-            } else {
-                return $default;
-            }
-        }
-
-        return $config;
-    }
+    use BaseConfig;
 
     public function getFolder($folder)
     {
