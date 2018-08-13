@@ -4,6 +4,7 @@ namespace Amber\Sketch\Compiler;
 
 use Amber\Filesystem\File;
 use Amber\Sketch\Template\Template;
+
 /**
  * The template compiler.
  *
@@ -34,7 +35,6 @@ trait Compiler
      */
     public function design($view, $layout, $data)
     {
-
         $this->template = new Template($this->viewPath($view), $this->layoutPath($layout), $data, $this->config);
         /* Check if the cache file is expired. */
         $this->setCache($this->template->cache($this->getFolder('cache')));
