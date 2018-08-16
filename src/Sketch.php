@@ -31,7 +31,7 @@ class Sketch implements ConfigAwareInterface
      */
     public function __construct($config)
     {
-        $this->config = $config;
+        $this->setConfig($config);
     }
 
     public function output()
