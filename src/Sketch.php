@@ -13,6 +13,7 @@ use Amber\Sketch\Template\Template;
 class Sketch implements ConfigAwareInterface
 {
     use Compiler, ConfigAwareTrait;
+
     /**
      * @var object Amber\Sketch\Template\Template
      */
@@ -63,10 +64,5 @@ class Sketch implements ConfigAwareInterface
     public function setTemplate(Template $template)
     {
         $this->template = $template;
-    }
-
-    public function setCompiler(Compiler $compiler)
-    {
-        $this->compiler = $compiler;
     }
 }
