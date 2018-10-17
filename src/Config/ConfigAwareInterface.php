@@ -2,9 +2,8 @@
 
 namespace Amber\Sketch\Config;
 
-interface ConfigAwareInterface
-{
-    public function setConfig(array $config);
+use Amber\Config\ConfigAwareInterface as ConfigContract;
 
-    public function getConfig(string $key, $default = null);
+interface ConfigAwareInterface extends ConfigContract
+{
 }
