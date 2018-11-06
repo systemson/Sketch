@@ -9,6 +9,8 @@ use Amber\Sketch\Template\Template;
 
 /**
  * This class handle the template view request.
+ *
+ * @todo MUST add support for adding custom functions.
  */
 class Sketch implements ConfigAwareInterface
 {

@@ -13,11 +13,13 @@ use Amber\Sketch\Template\Template;
 trait Compiler
 {
     protected $cache;
+
     public function setCache(File $cache)
     {
         $this->cache = $cache;
         return true;
     }
+
     public function cache()
     {
         if ($this->cache instanceof File) {
@@ -26,17 +28,19 @@ trait Compiler
 
         return $this->cache = $this->template->cache();
     }
+
     /**
-     * Make the compiled cache file.
+     * Makes the compiled cache file.
      *
-     * @param object $template Amber\Sketch\Template\Template
+     * @param
      *
      * @return void
      */
     public function design($view, $layout, $data)
     {
         $this->template = new Template($this->viewPath($view), $this->layoutPath($layout), $data, $this->config);
-        /* Check if the cache file is expired. */
+
+        /* Checks if the cache file is expired. */
         $this->setCache($this->template->cache($this->getFolder('cache')));
 
         if ($this->cacheExpired() || $this->getConfig('enviroment') == 'dev') {
@@ -46,7 +50,7 @@ trait Compiler
     }
 
     /**
-     * Check if the cache file is expired.
+     * Checks if the cache file is expired.
      *
      * @return bool
      */
