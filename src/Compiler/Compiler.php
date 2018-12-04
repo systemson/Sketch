@@ -38,7 +38,7 @@ trait Compiler
      */
     public function design($view, $layout, $data)
     {
-        $this->template = new Template($this->viewPath($view), $this->layoutPath($layout), $data, $this->config);
+        $this->template = new Template($this->viewPath($view), $this->layoutPath($layout), $data, $this->getConfigs());
 
         /* Checks if the cache file is expired. */
         $this->setCache($this->template->cache($this->getFolder('cache')));
