@@ -12,17 +12,22 @@ use Amber\Sketch\Template\Template;
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
 
-
+// Setup the filesystem
 $path = getcwd() . DIRECTORY_SEPARATOR;
 $local = new Local($path);
 $filesystem = new Filesystem($local);
 
-$sketch = new Sketch($filesystem);
-$sketch->setViewsFolder($path . 'views');
-$sketch->setCacheFolder($path . 'tmp/cache/views');
+// Setup the template
+$template = new Template('view.php');
+$template->setLayout('layouts/layout.php');
+$template->setVar('name', 'World');
+$template->setVar('description', 'This is a sample page.');
+$template->setVar('version', 'v0.5.0-beta');
 
-$template = new Template();
-$sketch->setTemplate($template);
+// Load and boot the template
+$sketch = new Sketch($filesystem, $template);
+$sketch->setViewsFolder('views');
+$sketch->setCacheFolder('tmp/cache/views');
 
-/* Se muestra el diseño */
+// Show the output
 echo $sketch->toHtml();

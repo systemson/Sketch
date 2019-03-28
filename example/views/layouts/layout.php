@@ -1,22 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <include="head">
+  <include src="includes/head.php">
 </head>
 <body class="skin-blue">
 
-<div class="container">
+  <div class="container">
 
-  <!-- Content of the view -->
-  <div class="col-sm-12">
-    <sketch>
-  </div>
-  <!-- /. content wrapper -->
+    <!-- Content of the view -->
+    <div class="row">
+      <sketch>
+    </div>
 
-</div>
-<!-- ./wrapper -->
+    <include src="includes/scripts.php">
 
-<include="scripts">
-
-</body>
+  </body>
 </html>
