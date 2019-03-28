@@ -1,3 +1,5 @@
+<extend="layout">
+
 <h1>Hello World</h1>
 <h3>This is a sample page.</h3>
 <p>

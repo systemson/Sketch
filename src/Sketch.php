@@ -2,69 +2,50 @@
 
 namespace Amber\Sketch;
 
-use Amber\Sketch\Compiler\Compiler;
-use Amber\Sketch\Config\ConfigAwareInterface;
-use Amber\Sketch\Config\ConfigAwareTrait;
-use Amber\Sketch\Template\Template;
+use League\Flysystem\FilesystemInterface;
+use Amber\Sketch\Template\TemplateInterface;
 
-/**
- * This class handle the template view request.
- *
- * @todo MUST add support for adding custom functions.
- */
-class Sketch implements ConfigAwareInterface
+class Sketch
 {
-    use Compiler, ConfigAwareTrait;
+    protected $filesystem;
 
-    /**
-     * @var object Amber\Sketch\Template\Template
-     */
-    public $template;
+    protected $paths = [];
 
-    /**
-     * @var object Amber\Sketch\Compiler\Compiler
-     */
-    public $compiler;
+    protected $template;
 
-    /**
-     * Instantiates the Sketch class.
-     *
-     * @param object $template \Amber\Sketch\Template\Template
-     * @param object $compiler \Amber\Sketch\Compiler\Compiler
-     */
-    public function __construct($config)
+    public function __construct(FilesystemInterface $filesystem)
     {
-        $this->setConfig($config);
+        $this->filesystem = $filesystem;
     }
 
-    public function output()
+    public function setViewsFolder(string $path): void
     {
-        ob_start();
-
-        /* Extract the data from the template */
-        extract($this->template->getData());
-
-        /* Include the template cache */
-        include $this->cache()->getFullPath();
-
-        return ob_get_clean();
+        if (!file_exists($path)) {
+            throw new \Exception("Error Processing Request", 1);
+        }
+        $this->paths['views'] = $path;
     }
 
-    /**
-     * Draw the template.
-     *
-     * @param string $view The relative path to the view.
-     * @param array  $data The template data.
-     *
-     * @return mixed
-     */
-    public function draw()
+    public function setCacheFolder(string $path): void
     {
-        echo $this->output();
+        if (!file_exists($path)) {
+            throw new \Exception("Error Processing Request", 1);
+        }
+        $this->paths['cache'] = $path;
     }
 
-    public function setTemplate(Template $template)
+    public function setTemplate(TemplateInterface $template)
     {
         $this->template = $template;
+    }
+
+    public function getTemplate(): TemplateInterface
+    {
+        return $this->template;
+    }
+
+    public function toHtml(): string
+    {
+        return $this->getTemplate()->output();
     }
 }

@@ -8,38 +8,21 @@ define('AMBER_START', microtime(true));
 require __DIR__.'/../vendor/autoload.php';
 
 use Amber\Sketch\Sketch;
+use Amber\Sketch\Template\Template;
+use League\Flysystem\Adapter\Local;
+use League\Flysystem\Filesystem;
 
-$view = 'view.php';
-$layout = 'layout.php';
-$data = [];
 
-$env = [
-    'basepath'     => getcwd().'/',
-    'enviroment'   => 'dev',
-    'folders'      => [
-        'views'    => 'views',
-        'layouts'  => 'views/layouts',
-        'includes' => 'views/includes',
-        'partials' => 'views/includes/partials',
-        'cache'    => 'tmp/cache/views',
-    ],
-    'tags'         => [
-        'if'       => '',
-        'elseif'   => '',
-        'else'     => '',
-        'endif'    => '',
-        'foreach'  => '',
-        'endforeach'=> '',
-        'while'    => '',
-        'while'    => '',
-    ],
-];
+$path = getcwd() . DIRECTORY_SEPARATOR;
+$local = new Local($path);
+$filesystem = new Filesystem($local);
 
-/* Se instancia el borrador */
-$sketch = new Sketch($env);
+$sketch = new Sketch($filesystem);
+$sketch->setViewsFolder($path . 'views');
+$sketch->setCacheFolder($path . 'tmp/cache/views');
 
-/* Se compila la plantilla */
-$sketch->design($view, $layout, $data);
+$template = new Template();
+$sketch->setTemplate($template);
 
 /* Se muestra el diseño */
-$sketch->draw();
+echo $sketch->toHtml();
