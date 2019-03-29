@@ -15,9 +15,10 @@ class Template implements TemplateInterface
         $this->setVars($vars);
     }
 
-    public function setView(string $path): void
+    public function setView(string $path): self
     {
         $this->view = $path;
+        return $this;
     }
 
     public function getView(): string
@@ -25,9 +26,10 @@ class Template implements TemplateInterface
         return $this->view;
     }
 
-    public function setLayout(string $path): void
+    public function setLayout(string $path): self
     {
         $this->layout = $path;
+        return $this;
     }
 
     public function hasLayout(): bool
@@ -40,9 +42,10 @@ class Template implements TemplateInterface
         return $this->layout;
     }
 
-    public function setInclude(string $name, string $path): void
+    public function setInclude(string $name, string $path): self
     {
         $this->includes[$name] = $path;
+        return $this;
     }
 
     public function getInclude(string $name): string
@@ -50,11 +53,12 @@ class Template implements TemplateInterface
         return $this->includes[$name];
     }
 
-    public function setIncludes(array $includes): void
+    public function setIncludes(array $includes): self
     {
         foreach ($includes as $name => $path) {
             $this->setInclude($name, $path);
         }
+        return $this;
     }
 
     public function getIncludes(): array
@@ -62,9 +66,10 @@ class Template implements TemplateInterface
         return $this->includes;
     }
 
-    public function setVar(string $name, $value): void
+    public function setVar(string $name, $value): self
     {
         $this->vars[$name] = $value;
+        return $this;
     }
 
     public function getVar(string $name)
@@ -72,11 +77,12 @@ class Template implements TemplateInterface
         return htmlentities($this->vars[$name]);
     }
 
-    public function setVars(array $vars): void
+    public function setVars(array $vars): self
     {
         foreach ($vars as $name => $value) {
             $this->setVars($name, $value);
         }
+        return $this;
     }
 
     public function getVars(): array
@@ -96,10 +102,5 @@ class Template implements TemplateInterface
         }
 
         return $files;
-    }
-
-    public function output()
-    {
-        return '<h1>Hello world.</h1>';
     }
 }
