@@ -35,7 +35,7 @@ class Template implements TemplateInterface
         return !is_null($this->layout);
     }
 
-    public function getLayout(): string
+    public function getLayout()
     {
         return $this->layout;
     }

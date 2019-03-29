@@ -20,8 +20,8 @@ class Sketch
 
     public function __construct(FilesystemInterface $filesystem, TemplateInterface $template = null)
     {
-        $this->filesystem = $filesystem;
-        $this->template = $template;
+        $this->setFilesystem($filesystem);
+        $this->setTemplate($template);
     }
 
     public function setFilesystem(FilesystemInterface $filesystem): void
@@ -32,6 +32,16 @@ class Sketch
     public function getFilesystem(): FilesystemInterface
     {
         return $this->filesystem;   
+    }
+
+    public function setTemplate(TemplateInterface $template): void
+    {
+        $this->template = $template;
+    }
+
+    public function getTemplate(): TemplateInterface
+    {
+        return $this->template;
     }
 
     public function setFolder(string $name, string $path): void
@@ -55,16 +65,6 @@ class Sketch
     public function setCacheFolder(string $path): void
     {
         $this->setFolder('cache', $path);
-    }
-
-    public function setTemplate(TemplateInterface $template): void
-    {
-        $this->template = $template;
-    }
-
-    public function getTemplate(): TemplateInterface
-    {
-        return $this->template;
     }
 
     public function getTemplateFiles(): array
@@ -125,32 +125,29 @@ class Sketch
         return $content;
     }
 
-    public function writeCacheFile(): void
+    public function getCacheName()
     {
         $view = $this->getFile('view');
+        return $this->getFolder('cache') . DIRECTORY_SEPARATOR . sha1($view->getPath());
+    }
 
-        $baseFolder = $this->getFolder('cache');
-        $name = base64_encode($view->getPath());
+    public function getCacheFullName()
+    {
+        return $this->getFilesystem()->getAdapter()->getPathPrefix() . $this->getCacheName();
+    }
 
-        $fullname = $baseFolder . DIRECTORY_SEPARATOR . $name;
-
-        $this->getFilesystem()->put($fullname, $this->content);
+    public function writeCacheFile(): void
+    {
+        $this->getFilesystem()->put($this->getCacheName(), $this->content);
     }
 
     public function loadCacheFile(): string
     {
-        $view = $this->getFile('view');
-
-        $baseFolder = $this->getFolder('cache');
-        $name = base64_encode($view->getPath());
-
-        $fullname = $baseFolder . DIRECTORY_SEPARATOR . $name;
-
         ob_start();
 
         extract($this->getTemplate()->getVars());
 
-        include $fullname;
+        include $this->getCacheFullName();
 
         return ob_get_clean();
     }
