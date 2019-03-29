@@ -21,7 +21,9 @@ class Sketch
     public function __construct(FilesystemInterface $filesystem, TemplateInterface $template = null)
     {
         $this->setFilesystem($filesystem);
-        $this->setTemplate($template);
+        if (!is_null($template)) {
+            $this->setTemplate($template);
+        }
     }
 
     public function setFilesystem(FilesystemInterface $filesystem): void
@@ -47,7 +49,7 @@ class Sketch
     public function setFolder(string $name, string $path): void
     {
         if (!$this->getFilesystem()->has($path)) {
-            throw new \Exception("Error Processing Request", 1);
+            throw new \Exception("Folder {$path} does not exists.");
         }
         $this->folders[$name] = $path;
     }
