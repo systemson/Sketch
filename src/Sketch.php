@@ -18,12 +18,12 @@ class Sketch
 
     protected $template;
 
+    protected $locked = false;
+
     public function __construct(FilesystemInterface $filesystem, TemplateInterface $template = null)
     {
         $this->setFilesystem($filesystem);
-        if (!is_null($template)) {
-            $this->setTemplate($template);
-        }
+        $this->setTemplate($template);
     }
 
     public function setFilesystem(FilesystemInterface $filesystem): void
@@ -36,7 +36,7 @@ class Sketch
         return $this->filesystem;   
     }
 
-    public function setTemplate(TemplateInterface $template): void
+    public function setTemplate(TemplateInterface $template = null): void
     {
         $this->template = $template;
     }
@@ -95,7 +95,7 @@ class Sketch
                 throw new \Exception("File {$path} does not exists");
             }
 
-            $this->files[$name] = new File($this->getFilesystem(),$path);
+            $this->files[$name] = new File($this->getFilesystem(), $path);
         }
     }
 
@@ -154,11 +154,24 @@ class Sketch
         return ob_get_clean();
     }
 
+    public function isLocked(): bool
+    {
+        return $this->locked;
+    }
+
+    public function lock(bool $lock): void
+    {
+        $this->locked = $lock;
+    }
+
     public function toHtml(): string
     {
         $this->mountTemplate();
-        $this->loadContent();
-        $this->writeCacheFile();
+
+        if (!$this->isLocked()) {
+            $this->loadContent();
+            $this->writeCacheFile();
+        }
 
         return $this->loadCacheFile();
     }
