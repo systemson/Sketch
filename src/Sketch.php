@@ -5,6 +5,7 @@ namespace Amber\Sketch;
 use League\Flysystem\FilesystemInterface;
 use League\Flysystem\File;
 use Amber\Sketch\Template\TemplateInterface;
+use Carbon\Carbon;
 
 class Sketch
 {
@@ -28,12 +29,12 @@ class Sketch
 
     public function setFilesystem(FilesystemInterface $filesystem): void
     {
-        $this->filesystem = $filesystem;   
+        $this->filesystem = $filesystem;
     }
 
     public function getFilesystem(): FilesystemInterface
     {
-        return $this->filesystem;   
+        return $this->filesystem;
     }
 
     public function setTemplate(TemplateInterface $template = null): void
@@ -82,6 +83,11 @@ class Sketch
     public function getFile(string $name): File
     {
         return $this->files[$name];
+    }
+
+    public function getFiles(): array
+    {
+        return $this->files;
     }
 
     public function mountTemplate(): void
@@ -143,6 +149,18 @@ class Sketch
         $this->getFilesystem()->put($this->getCacheName(), $this->content);
     }
 
+    public function compile()
+    {
+        if ($this->isLocked()) {
+            return;
+        }
+
+        if ($this->cacheExpired()) {
+            $this->loadContent();
+            $this->writeCacheFile();
+        }
+    }
+
     public function loadCacheFile(): string
     {
         ob_start();
@@ -159,19 +177,34 @@ class Sketch
         return $this->locked;
     }
 
-    public function lock(bool $lock): void
+    public function lock(bool $lock = true): void
     {
         $this->locked = $lock;
+    }
+
+    public function cacheExpired(): bool
+    {
+        $filesystem = $this->getFilesystem();
+
+        if ($filesystem->has($this->getCacheName())) {
+            $cache = $filesystem->getTimestamp($this->getCacheName());
+        } else {
+            return true;
+        }
+
+        foreach ($this->getFiles() as $file) {
+            if ($cache <= $file->getTimestamp()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public function toHtml(): string
     {
         $this->mountTemplate();
 
-        if (!$this->isLocked()) {
-            $this->loadContent();
-            $this->writeCacheFile();
-        }
+        $this->compile();
 
         return $this->loadCacheFile();
     }
