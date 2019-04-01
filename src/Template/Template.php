@@ -9,7 +9,7 @@ class Template implements TemplateInterface
     protected $includes = [];
     protected $vars = [];
 
-    public function __construct(string $path, array $vars = [])
+    public function __construct(string $path = '', array $vars = [])
     {
         $this->setView($path);
         $this->setVars($vars);
