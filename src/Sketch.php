@@ -179,13 +179,7 @@ class Sketch
     public function replaceTags(string $content)
     {
     	foreach ($this->tags as $tag => $replace) {
-    		//$content = str_replace($name, $replace, $content)
-    		var_dump("/<sketch-{$tag}[^>]+\>/i");
-    		var_dump($tag);
-    		var_dump($replace);
-    		dump($content);
     		$content = preg_replace("/<sketch-{$tag}+\>/i", $replace, $content, -1);
-    		dump($content);
     	}
 
     	return $content;
