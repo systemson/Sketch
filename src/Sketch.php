@@ -6,6 +6,7 @@ use League\Flysystem\FilesystemInterface;
 use League\Flysystem\File;
 use Amber\Sketch\Template\TemplateInterface;
 use Carbon\Carbon;
+use Closure;
 
 class Sketch
 {
@@ -18,6 +19,7 @@ class Sketch
     protected $content;
 
     protected $template;
+    protected $tags = [];
 
     protected $locked = false;
 
@@ -90,6 +92,30 @@ class Sketch
         return $this->files;
     }
 
+    public function setTag(string $name, $replace): void
+    {
+    	$this->tags[$name] = $replace;
+    }
+
+    public function getTag(string $name): Closure
+    {
+    	return $this->tags[$name];
+    }
+
+    public function setTags(array $tags): void
+    {
+    	foreach ($tags as $name => $replace) {
+    		$this->setTag($key, $replace);
+    	}
+    }
+
+    public function getTags(array $tags): Closure
+    {
+    	foreach ($tags as $name) {
+    		$return[$name] = $this->getTag($name);
+    	}
+    }
+
     public function mountTemplate(): void
     {
         $template = $this->getTemplate();
@@ -114,7 +140,8 @@ class Sketch
             $content = $this->getFileContent('view');
         }
 
-        $this->content = $this->pushIncludes($content);
+        $content = $this->pushIncludes($content);
+        $this->content = $this->replaceTags($content);
     }
 
     public function pushIncludes(string $content): string
@@ -147,6 +174,21 @@ class Sketch
     public function writeCacheFile(): void
     {
         $this->getFilesystem()->put($this->getCacheName(), $this->content);
+    }
+
+    public function replaceTags(string $content)
+    {
+    	foreach ($this->tags as $tag => $replace) {
+    		//$content = str_replace($name, $replace, $content)
+    		var_dump("/<sketch-{$tag}[^>]+\>/i");
+    		var_dump($tag);
+    		var_dump($replace);
+    		dump($content);
+    		$content = preg_replace("/<sketch-{$tag}+\>/i", $replace, $content, -1);
+    		dump($content);
+    	}
+
+    	return $content;
     }
 
     public function compile()

@@ -2,7 +2,7 @@
   <h1>Hello <?= $name; ?></h1>
   <h3><?= $description; ?></h3>
   <p>
-    Sketch <?= $version; ?>
-    <span class="pull-right"> <?= number_format(microtime(true) - AMBER_START, 6); ?></span>
+    Sketch <sketch-version>
+    <span class="pull-right"> <sketch-lap></span>
   </p>
 </div>

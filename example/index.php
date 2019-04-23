@@ -22,12 +22,13 @@ $template = new Template('view.php');
 $template->setLayout('layouts/layout.php');
 $template->setVar('name', 'World');
 $template->setVar('description', 'This is a sample page.');
-$template->setVar('version', 'v0.5.0-beta');
 
 // Load and boot the template
 $sketch = new Sketch($filesystem, $template);
 $sketch->setViewsFolder('views');
 $sketch->setCacheFolder('tmp/cache/views');
+$sketch->setTag('version', 'v0.5.0-beta');
+$sketch->setTag('lap', '<?= number_format(microtime(true) - AMBER_START, 6); ?>');
 
 // Show the output
 echo $sketch->toHtml();
