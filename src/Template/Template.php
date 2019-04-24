@@ -11,6 +11,9 @@ class Template implements TemplateInterface
 
     protected $tags = [
         'foreach' => ['<?php foreach(%s): ?>', '<?php endforeach; ?>'],
+        'echo' => ['<?= htmlspecialchars(', '); ?>'],
+        'var' => ['<?= htmlspecialchars($%s); ?>'],
+        'php' => ['<?php ', ' ;?>'],
     ];
 
     public function __construct(string $path = '', array $vars = [])

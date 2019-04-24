@@ -23,6 +23,8 @@ class Sketch
 
     protected $locked = false;
 
+    const PARENT_TAG = 'sketch';
+
     public function __construct(FilesystemInterface $filesystem, TemplateInterface $template = null)
     {
         $this->setFilesystem($filesystem);
@@ -183,18 +185,38 @@ class Sketch
     public function replaceTags(string $content)
     {
         foreach ($this->tags as $tag => $replace) {
-            // Extract the tag arguments
-            preg_match_all("/<sketch-{$tag}(=\"(.*)\")?>/i", $content, $matches);
-            if (!empty($matches[0])) {
-                // Replaces the opening tag and push the arguments if any
-                $content = str_replace($matches[0][0], sprintf($replace->opening, $matches[2][0]), $content);
+        	// Define the full tag name
+            $name = static::PARENT_TAG . '-' . $tag;
 
-                // Replaces the closing tag
-                $content = preg_replace("/<\/sketch-{$tag}+.*?\>/i", $replace->closing, $content);
+            // Extract the tag arguments
+            preg_match_all("/<{$name}(=\"(.*)\")?>/i", $content, $matches);
+            $matches = $this->getTagsMatches($matches);
+
+            foreach ($matches as $match) {
+                // Replace the opening tag and push the arguments, if any.
+                $content = str_replace($match->name, sprintf($replace->opening, trim($match->args)), $content);
+
+                // Replace the closing tag
+                $content = preg_replace("/<\/{$name}+.*?\>/i", $replace->closing, $content);
             }
+
         }
 
         return $content;
+    }
+
+    public function getTagsMatches($matches)
+    {
+    	$return = [];
+
+    	for ($x=0; $x < count($matches[0]); $x++) { 
+    		$return[] = (object) [
+    			'name' => reset($matches)[$x],
+    			'args' => end($matches)[$x],
+    		];
+    	}
+
+    	return $return;
     }
 
     public function compile()
