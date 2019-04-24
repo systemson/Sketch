@@ -92,9 +92,12 @@ class Sketch
         return $this->files;
     }
 
-    public function setTag(string $name, $replace): void
+    public function setTag(string $name, string $opening, string $closing = null): void
     {
-    	$this->tags[$name] = $replace;
+    	$this->tags[$name] = (object) [
+            'opening' => $opening,
+            'closing' => $closing,
+        ];
     }
 
     public function getTag(string $name): Closure
@@ -179,7 +182,11 @@ class Sketch
     public function replaceTags(string $content)
     {
     	foreach ($this->tags as $tag => $replace) {
-    		$content = preg_replace("/<sketch-{$tag}+\>/i", $replace, $content);
+            // Replaces the opening tag
+    		$content = preg_replace("/<sketch-{$tag}+\>/i", $replace->opening, $content);
+
+            // Replaces the closing tag
+            $content = preg_replace("/<\/sketch-{$tag}+\>/i", $replace->closing, $content);
     	}
 
     	return $content;
