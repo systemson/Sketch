@@ -52,7 +52,7 @@ class Sketch
     public function setFolder(string $name, string $path): void
     {
         if (!$this->getFilesystem()->has($path)) {
-        	$this->getFilesystem()->createDir($path)
+        	$this->getFilesystem()->createDir($path);
         }
         $this->folders[$name] = $path;
     }
