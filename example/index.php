@@ -28,8 +28,8 @@ $sketch = new Sketch($filesystem, $template);
 $sketch->setViewsFolder('views');
 $sketch->setCacheFolder('tmp/cache/views');
 $sketch->setTag('version', 'v0.5.0-beta');
-$sketch->setTag('foreach', '<?php foreach([] as $lol): ?>', '<?php endforeach; ?>');
 $sketch->setTag('lap', '<?= number_format(microtime(true) - AMBER_START, 6); ?>');
+$sketch->setTag('lol', 'nada');
 
 // Show the output
 echo $sketch->toHtml();

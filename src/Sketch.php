@@ -94,7 +94,7 @@ class Sketch
 
     public function setTag(string $name, string $opening, string $closing = null): void
     {
-    	$this->tags[$name] = (object) [
+        $this->tags[$name] = (object) [
             'opening' => $opening,
             'closing' => $closing,
         ];
@@ -102,26 +102,27 @@ class Sketch
 
     public function getTag(string $name): Closure
     {
-    	return $this->tags[$name];
+        return $this->tags[$name];
     }
 
     public function setTags(array $tags): void
     {
-    	foreach ($tags as $name => $replace) {
-    		$this->setTag($key, $replace);
-    	}
+        foreach ($tags as $name => $replace) {
+            $this->setTag($name, $replace[0], $replace[1] ?? null);
+        }
     }
 
     public function getTags(array $tags): Closure
     {
-    	foreach ($tags as $name) {
-    		$return[$name] = $this->getTag($name);
-    	}
+        foreach ($tags as $name) {
+            $return[$name] = $this->getTag($name);
+        }
     }
 
     public function mountTemplate(): void
     {
         $template = $this->getTemplate();
+        $this->setTags($template->getTags());
         $baseFolder = $this->getFolder('views');
 
         foreach ($this->getTemplateFiles() as $name => $file) {
@@ -181,15 +182,19 @@ class Sketch
 
     public function replaceTags(string $content)
     {
-    	foreach ($this->tags as $tag => $replace) {
-            // Replaces the opening tag
-    		$content = preg_replace("/<sketch-{$tag}+\>/i", $replace->opening, $content);
+        foreach ($this->tags as $tag => $replace) {
+            // Extract the tag arguments
+            preg_match_all("/<sketch-{$tag}(=\"(.*)\")?>/i", $content, $matches);
+            if (!empty($matches[0])) {
+                // Replaces the opening tag and push the arguments if any
+                $content = str_replace($matches[0][0], sprintf($replace->opening, $matches[2][0]), $content);
 
-            // Replaces the closing tag
-            $content = preg_replace("/<\/sketch-{$tag}+\>/i", $replace->closing, $content);
-    	}
+                // Replaces the closing tag
+                $content = preg_replace("/<\/sketch-{$tag}+.*?\>/i", $replace->closing, $content);
+            }
+        }
 
-    	return $content;
+        return $content;
     }
 
     public function compile()

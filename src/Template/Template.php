@@ -9,6 +9,10 @@ class Template implements TemplateInterface
     protected $includes = [];
     protected $vars = [];
 
+    protected $tags = [
+        'foreach' => ['<?php foreach(%s): ?>', '<?php endforeach; ?>'],
+    ];
+
     public function __construct(string $path = '', array $vars = [])
     {
         $this->setView($path);
@@ -40,6 +44,11 @@ class Template implements TemplateInterface
     public function getLayout()
     {
         return $this->layout;
+    }
+
+    public function getTags()
+    {
+        return $this->tags;
     }
 
     public function setInclude(string $name, string $path): self
