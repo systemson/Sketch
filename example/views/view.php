@@ -1,15 +1,15 @@
 <div class="col-sm-12">
-  <h1>Hello <sketch-var="name"></h1>
-  <h3><sketch-echo>$description</sketch-echo></h3>
+  <h1>Hello <sk-var="name"></h1>
+  <h3><sk-echo>$description</sk-echo></h3>
 
-  <sketch-php>$array = [1,2,3,4]</sketch-php>
+  <sk-php>$array = [1,2,3,4]</sk-php>
 
-  <sketch-foreach="$array as $value">
-  	<p>This is a foreach loop <sketch-var="value"></p>
-  </sketch-foreach>
+  <sk-foreach="$array as $value">
+  	<p>This is a foreach loop <sk-var="value"></p>
+  </sk-foreach>
 
   <p>
-    Sketch <sketch-version>
-    <span class="pull-right"> <sketch-lap></span>
+    Sketch <sk-version>
+    <span class="pull-right"> <sk-lap></span>
   </p>
 </div>

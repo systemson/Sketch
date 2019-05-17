@@ -7,6 +7,7 @@ use League\Flysystem\File;
 use Amber\Sketch\Template\TemplateInterface;
 use Carbon\Carbon;
 use Closure;
+use Amber\Phraser\Phraser;
 
 class Sketch
 {
@@ -21,9 +22,10 @@ class Sketch
     protected $template;
     protected $tags = [];
 
+    protected $dev = false;
     protected $locked = false;
 
-    const PARENT_TAG = 'sketch';
+    const PARENT_TAG = 'sk';
 
     public function __construct(FilesystemInterface $filesystem, TemplateInterface $template = null)
     {
@@ -186,7 +188,7 @@ class Sketch
     {
         foreach ($this->tags as $tag => $replace) {
         	// Define the full tag name
-            $name = static::PARENT_TAG . '-' . $tag;
+            $name = static::PARENT_TAG . '-' . Phraser::fromSnakeCase($tag)->toCamelCase();
 
             // Extract the tag arguments
             preg_match_all("/<{$name}(=\"(.*)\")?>/i", $content, $matches);
@@ -242,18 +244,32 @@ class Sketch
         return ob_get_clean();
     }
 
+    public function isDev(): bool
+    {
+        return $this->dev;
+    }
+
+    public function dev(bool $dev = true): void
+    {
+        $this->dev = $dev;
+    }
+
     public function isLocked(): bool
     {
         return $this->locked;
     }
 
-    public function lock(bool $lock = true): void
+    public function lock(bool $locked = true): void
     {
-        $this->locked = $lock;
+        $this->locked = $locked;
     }
 
     public function cacheExpired(): bool
     {
+        if ($this->isDev()) {
+            return true;
+        }
+
         $filesystem = $this->getFilesystem();
 
         if ($filesystem->has($this->getCacheName())) {
