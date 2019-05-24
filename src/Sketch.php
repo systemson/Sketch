@@ -188,10 +188,10 @@ class Sketch
     {
         foreach ($this->tags as $tag => $replace) {
         	// Define the full tag name
-            $name = static::PARENT_TAG . '-' . Phraser::fromSnakeCase($tag)->toCamelCase();
+            $name = $this->getTagName($tag);
 
             // Extract the tag arguments
-            preg_match_all("/<{$name}(=\"(.*)\")?>/i", $content, $matches);
+            preg_match_all("/<{$name}(=\"(.*)\")?>/", $content, $matches);
             $matches = $this->getTagsMatches($matches);
 
             foreach ($matches as $match) {
@@ -205,6 +205,11 @@ class Sketch
         }
 
         return $content;
+    }
+
+    protected function getTagName(string $tag): string
+    {
+        return static::PARENT_TAG . Phraser::fromSnakeCase($tag)->toCamelCase();
     }
 
     public function getTagsMatches($matches)
@@ -238,6 +243,8 @@ class Sketch
         ob_start();
 
         extract($this->getTemplate()->getVars());
+
+        $_helpers = $this->getTemplate()->helpers;
 
         include $this->getCacheFullName();
 

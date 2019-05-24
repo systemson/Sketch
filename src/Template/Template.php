@@ -10,16 +10,29 @@ class Template implements TemplateInterface
     protected $vars = [];
 
     protected $tags = [
-        'foreach' => ['<?php foreach(%s): ?>', '<?php endforeach; ?>'],
-        'echo' => ['<?= htmlspecialchars(', '); ?>'],
-        'var' => ['<?= htmlspecialchars($%s); ?>'],
+        'foreach' => ['<?php foreach((array) %s): ?>', '<?php endforeach; ?>'],
+        'for' => ['<?php for(%s): ?>', '<?php endfor; ?>'],
+        'while' => ['<?php while(%s): ?>', '<?php endwhile; ?>'],
+        'if' => ['<?php if(%s): ?>', '<?php endif; ?>'],
+        'else_if' => ['<?php elseif(%s): ?>'],
+        'else' => ['<?php else: ?>'],
+        'echo' => ['<?= $_helpers->e->__invoke(', '); ?>'],
+        'var' => ['<?= $_helpers->e->__invoke($%s); ?>'],
+        'raw' => ['<?= ', '; ?>'],
         'php' => ['<?php ', ' ;?>'],
     ];
+
+    public $helpers = [];
 
     public function __construct(string $path = '', array $vars = [])
     {
         $this->setView($path);
         $this->setVars($vars);
+        $this->helpers = (object) [
+            'e' => function ($value) {
+                return htmlspecialchars($value);
+            }
+        ];
     }
 
     public function setView(string $path): self
