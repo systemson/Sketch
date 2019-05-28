@@ -31,7 +31,8 @@
     },
     "scripts": {
         "sniff": "phpcs --standard=PSR12 ./src",
-        "fix-cs": "phpcbf --standard=PSR12 ./src"
+        "fix-cs": "phpcbf --standard=PSR12 ./src",
+        "fast-push": "git add . && git commit -m \"Updates\" && git push"
     },
     "config": {
         "preferred-install": "dist",

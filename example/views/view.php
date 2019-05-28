@@ -12,7 +12,7 @@
 
   <ul>
     <skFor="$x=0; $x<count($array); $x++">
-      <li>This is a foreach loop <skVar="array[$x]"></li>
+      <li>This is a for loop <skVar="array[$x]"></li>
     </skFor>
   </ul>
 
@@ -31,9 +31,13 @@
 
 
   <p>
-    This is a html output 
-    <skPhp> $div = '<div class="container">Text inside a box</div>'</skPhp>
-    <skVar="div">
+    This is a html injection: 
+    <skPhp> $div1 = '<div class="container">If you see the div tags as string it\'s safe</div>'</skPhp>
+    <skPhp> $div2 = '<script type="text/javascript">alert("Won\'t be alerted.");</script>'</skPhp>
+    <br>
+    <skVar="div1">
+    <br>
+    <skEcho>$div2</skEcho>
   </p>
 
   <p>
