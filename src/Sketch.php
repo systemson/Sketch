@@ -24,6 +24,7 @@ class Sketch
 
     protected $dev = false;
     protected $locked = false;
+    protected $globals = [];
 
     const PARENT_TAG = 'sk';
 
@@ -46,6 +47,7 @@ class Sketch
     public function setTemplate(TemplateInterface $template = null): void
     {
         $this->template = $template;
+        $this->setGlobal('_view', $template);
     }
 
     public function getTemplate(): TemplateInterface
@@ -56,7 +58,7 @@ class Sketch
     public function setFolder(string $name, string $path): void
     {
         if (!$this->getFilesystem()->has($path)) {
-        	$this->getFilesystem()->createDir($path);
+            $this->getFilesystem()->createDir($path);
         }
         $this->folders[$name] = $path;
     }
@@ -123,6 +125,30 @@ class Sketch
         }
     }
 
+    public function setGlobal(string $name, $value): self
+    {
+        $this->globals[$name] = $value;
+        return $this;
+    }
+
+    public function getGlobal(string $name)
+    {
+        return $this->globals[$name] ?? null;
+    }
+
+    public function setGlobals(array $vars): self
+    {
+        foreach ($vars as $name => $value) {
+            $this->setGlobal($name, $value);
+        }
+        return $this;
+    }
+
+    public function getGlobals(): array
+    {
+        return $this->globals;
+    }
+
     public function mountTemplate(): void
     {
         $template = $this->getTemplate();
@@ -187,7 +213,7 @@ class Sketch
     public function replaceTags(string $content)
     {
         foreach ($this->tags as $tag => $replace) {
-        	// Define the full tag name
+            // Define the full tag name
             $name = $this->getTagName($tag);
 
             // Extract the tag arguments
@@ -201,7 +227,6 @@ class Sketch
                 // Replace the closing tag
                 $content = preg_replace("/<\/{$name}+.*?\>/i", $replace->closing, $content);
             }
-
         }
 
         return $content;
@@ -214,16 +239,16 @@ class Sketch
 
     public function getTagsMatches($matches)
     {
-    	$return = [];
+        $return = [];
 
-    	for ($x=0; $x < count($matches[0]); $x++) { 
-    		$return[] = (object) [
-    			'name' => reset($matches)[$x],
-    			'args' => end($matches)[$x],
-    		];
-    	}
+        for ($x = 0; $x < count($matches[0]); $x++) {
+            $return[] = (object) [
+                'name' => reset($matches)[$x],
+                'args' => end($matches)[$x],
+            ];
+        }
 
-    	return $return;
+        return $return;
     }
 
     public function compile()
@@ -243,6 +268,7 @@ class Sketch
         ob_start();
 
         extract($this->getTemplate()->getVars());
+        extract($this->getGlobals());
 
         $_helpers = $this->getTemplate()->helpers;
 

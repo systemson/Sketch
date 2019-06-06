@@ -5,7 +5,7 @@ ini_set('display_errors', 1);
 
 define('AMBER_START', microtime(true));
 
-require __DIR__.'/../vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 use Amber\Sketch\Sketch;
 use Amber\Sketch\Template\Template;
@@ -27,7 +27,7 @@ $template->setVar('description', 'This is a sample page.');
 $sketch = new Sketch($filesystem, $template);
 $sketch->setViewsFolder('views');
 $sketch->setCacheFolder('tmp/cache/views');
-$sketch->setTag('version', 'v0.2.0-dev');
+$sketch->setGlobal('version', 'v0.2.0-dev');
 $sketch->setTag('lap', '<?= number_format(microtime(true) - AMBER_START, 6); ?>');
 $sketch->dev(true);
 

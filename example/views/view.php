@@ -41,7 +41,7 @@
   </p>
 
   <p>
-    Sketch <skVersion>
+    Sketch <skEcho>$version</skEcho>
     <span class="pull-right"> <skLap></span>
   </p>
 </div>

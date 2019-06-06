@@ -30,8 +30,8 @@
         "symfony/var-dumper": "^4.2"
     },
     "scripts": {
-        "sniff": "phpcs --standard=PSR12 ./src",
-        "fix-cs": "phpcbf --standard=PSR12 ./src"
+        "sniff": "phpcs --standard=PSR12 ./src ./example",
+        "fix-cs": "phpcbf --standard=PSR12 ./src ./example"
     },
     "config": {
         "preferred-install": "dist",

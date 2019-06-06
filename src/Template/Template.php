@@ -28,10 +28,12 @@ class Template implements TemplateInterface
     {
         $this->setView($path);
         $this->setVars($vars);
+        $this->setVar('_view', $this);
         $this->helpers = (object) [
             'e' => function ($value) {
                 return htmlspecialchars($value);
-            }
+            },
+
         ];
     }
 
@@ -105,7 +107,7 @@ class Template implements TemplateInterface
     public function setVars(array $vars): self
     {
         foreach ($vars as $name => $value) {
-            $this->setVars($name, $value);
+            $this->setVar($name, $value);
         }
         return $this;
     }
