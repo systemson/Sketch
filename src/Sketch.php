@@ -234,7 +234,7 @@ class Sketch
 
     protected function getTagName(string $tag): string
     {
-        return static::PARENT_TAG . Phraser::fromSnakeCase($tag)->toCamelCase();
+        return static::PARENT_TAG . Phraser::make($tag)->fromSnakeCase($tag)->toCamelCase();
     }
 
     public function getTagsMatches($matches)
