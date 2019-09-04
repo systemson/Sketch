@@ -24,7 +24,7 @@
     "require": {
         "php": ">=7.3.0",
         "amber/collection": "^0.6",
-        "amber/phraser": "^0.0.8@beta"
+        "amber/phraser": "^0.1.0@dev"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "^3.4",
